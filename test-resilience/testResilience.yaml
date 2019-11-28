@@ -9,6 +9,6 @@ spec:
     spec:
       containers:
       - name: test-resilience
-        image: patrocinio/gb-test-resilience:v7
+        image: patrocinio/gb-test-resilience-amd64:v7
         imagePullPolicy: Always
       restartPolicy: Never

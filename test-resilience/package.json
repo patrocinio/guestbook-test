@@ -1,6 +1,6 @@
 {
-    "name": "portfolio",
-    "main": "portfolio.js",
+    "name": "test",
+    "main": "server.js",
     "dependencies": {
         "express": "*",
         "body-parser": "*",
