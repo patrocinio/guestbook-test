@@ -2,9 +2,8 @@
     "name": "test",
     "main": "server.js",
     "dependencies": {
-        "express": "*",
-        "body-parser": "*",
         "request": "*",
-        "redis": "*"
+        "redis": "*",
+        "request-promise": "*"
     }
 }
