@@ -1,0 +1,10 @@
+{
+    "name": "portfolio",
+    "main": "portfolio.js",
+    "dependencies": {
+        "express": "*",
+        "body-parser": "*",
+        "request": "*",
+        "redis": "*"
+    }
+}

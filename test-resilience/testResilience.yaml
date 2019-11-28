@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: test-resilience
+spec:
+  template:
+    metadata:
+      name: test-resilience
+    spec:
+      containers:
+      - name: test-resilience
+        image: patrocinio/gb-test-resilience:v7
+        imagePullPolicy: Always
+      restartPolicy: Never
