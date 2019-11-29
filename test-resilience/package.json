@@ -3,7 +3,6 @@
     "main": "server.js",
     "dependencies": {
         "request": "*",
-        "redis": "*",
-        "request-promise": "*"
+        "request-promise": "*" 
     }
 }

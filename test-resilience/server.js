@@ -1,39 +1,67 @@
 //const MESSAGE_URL = "http://frontend.guestbook/guestbook.php?cmd=get&key=messages"
-const MESSAGE_URL = "http://frontend-guestbook.patrocinio8-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud/guestbook.php?cmd=get&key=messages"
-const REDIS_URL	 = "https://redis-master-guestbook.patrocinio8-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud"
+const BASE_URL = "http://frontend-guestbook.patrocinio8-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud/guestbook.php?key=messages&"
 
-var request = require('request-promise')
-var redis = require('./redisHelper')
+var request = require('request-promise');
+var assert = require('assert');
 
-async function retrieveMessages() {
+async function sendRequest (cmd) {
+	const url = BASE_URL+cmd;
+	console.log ("URL: ", url);
+
 	const options = {
-		uri: MESSAGE_URL,
+		uri: url,
 		json: true
 	}
+
+	const result = await request.get(options);
+	return result;
+}
+
+async function retrieveMessages() {
 	try {
-		const result = await request.get(options);
+		const result = await sendRequest("cmd=get");
 		data = result.data;
 		console.log ("Data: ", data)
 		messages = data.split(',')
-		return messages.length;
+		return messages.length - 1;
 	} catch (error) {
 		return -1;
 	}
 }
 
+async function clearMessages() {
+	const result = await sendRequest("cmd=clear");
+	console.log ("Clear message result: ", result);
+}
+
 async function countMessages (expected) {
 	number = await retrieveMessages();
-	console.log ("Number: ", number)
+	console.log ("Number: ", number);
+	assert (number == expected);
 }
 
-function resetRedis() {
-	console.log ("Deleting all messages");
-	client = redis.connectToRedis(REDIS_URL);
-	client.del ("messages")
+async function addMessage(message) {
+	const result = await sendRequest ("cmd=append&value=" + message);
+	console.log ("Add message result: " + JSON.stringify(result));
 }
+
+async function addMessages() {
+	for (i = 0; i < 100; i++) {
+		await addMessage(i);
+	}
+
+}
+
+async function run() {
+	await clearMessages();
+	await countMessages(0);
+	await addMessages();
+	await countMessages(100);s
+}
+
 
 console.log ("Welcome to test resilience");
-countMessages();
+run();
 
 console.log ("== Done == ");
 //resetRedis ();
