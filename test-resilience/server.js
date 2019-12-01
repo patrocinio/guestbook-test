@@ -10,7 +10,8 @@ async function sendRequest (cmd) {
 	console.log ("URL: ", url);
 
 	const options = {
-		uri: url
+		uri: url,
+		json: true
 	}
 
 	let result = "";
@@ -23,7 +24,7 @@ async function sendRequest (cmd) {
 			console.log(error);
 		})
 	console.log ("Send request result: <", result, ">");
-	return result;
+	return result.data;
 }
 
 async function retrieveMessages() {
@@ -31,6 +32,11 @@ async function retrieveMessages() {
 		const result = await sendRequest("get");
 		data = result;
 		console.log ("Data: <", data, ">")
+
+		if (data == '') {
+			return 0;
+		}
+
 		messages = data.split(',')
 		return messages.length;
 	} catch (error) {
