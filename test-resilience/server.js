@@ -1,5 +1,5 @@
 //const MESSAGE_URL = "http://frontend.guestbook/guestbook.php?cmd=get&key=messages"
-const BASE_URL = "http://frontend-guestbook.patrocinio8-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud/guestbook.php?key=messages&"
+const BASE_URL = "http://backend-guestbook.patrocinio8-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud/";
 const NUM_MESSAGES = 200;
 
 var request = require('request-promise');
@@ -10,28 +10,36 @@ async function sendRequest (cmd) {
 	console.log ("URL: ", url);
 
 	const options = {
-		uri: url,
-		json: true
+		uri: url
 	}
 
-	const result = await request.get(options);
+	let result = "";
+	await request(options)
+	  .then (body => {
+			console.log ("Body: <", body, ">")
+			result = body;
+		})
+		.catch (error => {
+			console.log(error);
+		})
+	console.log ("Send request result: <", result, ">");
 	return result;
 }
 
 async function retrieveMessages() {
 	try {
-		const result = await sendRequest("cmd=get");
-		data = result.data;
-		console.log ("Data: ", data)
+		const result = await sendRequest("get");
+		data = result;
+		console.log ("Data: <", data, ">")
 		messages = data.split(',')
-		return messages.length - 1;
+		return messages.length;
 	} catch (error) {
 		return -1;
 	}
 }
 
 async function clearMessages() {
-	const result = await sendRequest("cmd=clear");
+	const result = await sendRequest("clear");
 	console.log ("Clear message result: ", result);
 }
 
@@ -42,7 +50,7 @@ async function countMessages (expected) {
 }
 
 async function addMessage(message) {
-	const result = await sendRequest ("cmd=append&value=" + message);
+	const result = await sendRequest ("append/" + message);
 	console.log ("Add message result: " + JSON.stringify(result));
 	return result;
 }
@@ -66,8 +74,8 @@ async function addMessages() {
 async function run() {
 	await clearMessages();
 	await countMessages(0);
-	await addMessages();
-	await countMessages(NUM_MESSAGES);
+//	await addMessages();
+//	await countMessages(NUM_MESSAGES);
 }
 
 
