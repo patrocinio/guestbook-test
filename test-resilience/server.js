@@ -1,6 +1,7 @@
 //const MESSAGE_URL = "http://frontend.guestbook/guestbook.php?cmd=get&key=messages"
 const BASE_URL = "http://backend-guestbook.patrocinio8-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud/";
 const NUM_MESSAGES = 100;
+const ERROR = "error"
 
 var request = require('request-promise');
 var assert = require('assert');
@@ -23,6 +24,7 @@ async function sendRequest (cmd) {
 		})
 		.catch (error => {
 			console.log("==> Error: ", error);
+			result = ERROR;
 		})
 //	console.log ("Send request result: <", result, ">");
 	return result;
