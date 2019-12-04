@@ -24,13 +24,13 @@ async function sendRequest (cmd) {
 			console.log(error);
 		})
 //	console.log ("Send request result: <", result, ">");
-	return result.data;
+	return result;
 }
 
 async function retrieveMessages() {
 	try {
 		const result = await sendRequest("get");
-		data = result;
+		data = result.data;
 		console.log ("Data: <", data, ">")
 
 		if (data == '') {
