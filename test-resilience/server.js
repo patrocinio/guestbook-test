@@ -1,9 +1,10 @@
 //const MESSAGE_URL = "http://frontend.guestbook/guestbook.php?cmd=get&key=messages"
 const BASE_URL = "http://backend-guestbook.patrocinio8-fa9ee67c9ab6a7791435450358e564cc-0001.us-east.containers.appdomain.cloud/";
-const NUM_MESSAGES = 400;
+const NUM_MESSAGES = 100;
 
 var request = require('request-promise');
 var assert = require('assert');
+var sleep = require('sleep');
 
 async function sendRequest (cmd) {
 	const url = BASE_URL+cmd;
@@ -21,7 +22,7 @@ async function sendRequest (cmd) {
 			result = body;
 		})
 		.catch (error => {
-			console.log(error);
+			console.log("==> Error: ", error);
 		})
 //	console.log ("Send request result: <", result, ">");
 	return result;
@@ -56,9 +57,9 @@ async function countMessages (expected) {
 }
 
 async function addMessage(message) {
-	const result = await sendRequest ("append/" + message);
-	console.log ("Add message result: " + JSON.stringify(result));
-	return result;
+		const result = await sendRequest ("append/" + message);
+		console.log ("Add message result: " + JSON.stringify(result));
+		return result;
 }
 
 async function addMessages() {
@@ -77,15 +78,26 @@ async function addMessages() {
 	}
 }
 
-function waitForEmptyQueue () {
-	
+async function waitForEmptyQueue () {
+	console.log ("Waiting for empty queue...");
+	let queueSize = -1;
+
+	while (queueSize != 0) {
+		console.log ("Querying queue size...");
+		const result = await sendRequest("queueSize");
+		console.log ("Result: ", result);
+		queueSize = result.queueSize;
+		if (queueSize != 0) {
+			sleep.sleep (1);
+		}
+	}
 }
 
 async function run() {
 	await clearMessages();
 	await countMessages(0);
 	await addMessages();
-	waitForEmptyQueue();
+	await waitForEmptyQueue();
 	await countMessages(NUM_MESSAGES);
 }
 
