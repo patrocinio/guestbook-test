@@ -77,10 +77,15 @@ async function addMessages() {
 	}
 }
 
+function waitForEmptyQueue () {
+	
+}
+
 async function run() {
 	await clearMessages();
 	await countMessages(0);
 	await addMessages();
+	waitForEmptyQueue();
 	await countMessages(NUM_MESSAGES);
 }
 
