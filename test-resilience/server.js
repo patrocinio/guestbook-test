@@ -81,7 +81,7 @@ async function run() {
 	await clearMessages();
 	await countMessages(0);
 	await addMessages();
-//	await countMessages(NUM_MESSAGES);
+	await countMessages(NUM_MESSAGES);
 }
 
 
