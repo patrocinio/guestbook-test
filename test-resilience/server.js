@@ -59,9 +59,16 @@ async function countMessages (expected) {
 }
 
 async function addMessage(message) {
-		const result = await sendRequest ("append/" + message);
+	let result = "";
+	let count = 0;
+
+	do {
+		console.log ("Adding message ", message, " count: ", count);
+		result = await sendRequest ("append/" + message);
 		console.log ("Add message result: " + JSON.stringify(result));
-		return result;
+	} while (result == ERROR);
+
+	return result;
 }
 
 async function addMessages() {
