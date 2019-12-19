@@ -89,14 +89,15 @@ async function addMessages() {
 
 async function waitForEmptyQueue () {
 	console.log ("Waiting for empty queue...");
-	let queueSize = -1;
+	let empty = false;
 
-	while (queueSize != 0) {
+	while (!empty) {
 		console.log ("Querying queue size...");
-		const result = await sendRequest("queueSize");
-		console.log ("Result: ", result);
-		queueSize = result.queueSize;
-		if (queueSize != 0) {
+		const result = await sendRequest("emptyQueue");
+		console.log ("Result: ", result.data);
+		empty = result.data;
+		console.log ("Data: ", empty);
+		if (!empty) {
 			sleep.sleep (1);
 		}
 	}
