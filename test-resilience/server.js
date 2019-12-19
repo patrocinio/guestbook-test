@@ -108,6 +108,8 @@ async function run() {
 	await countMessages(0);
 	await addMessages();
 	await waitForEmptyQueue();
+	console.log ("Sleeping 2 seconds");
+	sleep.sleep(2);
 	await countMessages(NUM_MESSAGES);
 }
 
