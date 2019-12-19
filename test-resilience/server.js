@@ -37,7 +37,7 @@ async function retrieveMessages() {
 		console.log ("Data: <", data, ">")
 
 		if (data == '') {
-			return 0;
+			return "";
 		}
 
 		messages = data.split(',')
