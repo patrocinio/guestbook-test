@@ -32,7 +32,7 @@ async function sendRequest (cmd) {
 
 async function retrieveMessages() {
 	try {
-		const result = await sendRequest("get");
+		const result = await sendRequest("getMaster");
 		data = result.data;
 		console.log ("Data: <", data, ">")
 
@@ -60,7 +60,6 @@ function findMissing (messages) {
 		}
 
 		for (i in messages) {
-//			console.log ("Message: ", messages[i]);
 			m[messages[i]] = false;
 		}
 
