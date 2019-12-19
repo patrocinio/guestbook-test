@@ -53,13 +53,20 @@ async function clearMessages() {
 }
 
 function findMissing (messages) {
-    var message = [];
+    var m = [];
 		for (let count = 0; count < NUM_MESSAGES; count++) {
-			message[count] = false;
+			m[count] = true;
 		}
 
 		for (message in messages) {
 			console.log ("Messages: ", message);
+			m[message] = false;
+		}
+
+		for (count = 0; count < NUM_MESSAGES; count++) {
+			if (m[count]) {
+				console.log ("Missing message " + count);
+			}
 		}
 }
 
