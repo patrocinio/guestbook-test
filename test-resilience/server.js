@@ -41,7 +41,7 @@ async function retrieveMessages() {
 		}
 
 		messages = data.split(',')
-		return messages.length;
+		return messages;
 	} catch (error) {
 		return -1;
 	}
@@ -52,9 +52,24 @@ async function clearMessages() {
 	console.log ("Clear message result: ", result);
 }
 
+function findMissing (messages) {
+    var message = [];
+		for (let count = 0; count < NUM_MESSAGES; count++) {
+			message[count] = false;
+		}
+
+		for (message in messages) {
+			console.log ("Messages: ", message);
+		}
+}
+
 async function countMessages (expected) {
-	number = await retrieveMessages();
+	messages = await retrieveMessages();
+	number = messages.length;
 	console.log ("Number: ", number);
+	if (number != expected) {
+		findMissing (messages);
+	}
 	assert (number == expected);
 }
 
