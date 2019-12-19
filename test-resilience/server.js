@@ -59,9 +59,9 @@ function findMissing (messages) {
 			m[count] = true;
 		}
 
-		for (message in messages) {
-//			console.log ("Messages: ", message);
-			m[message] = false;
+		for (i in messages) {
+			console.log ("Message: ", messages[i]);
+			m[messages[i]] = false;
 		}
 
 		for (count = 0; count < NUM_MESSAGES; count++) {
