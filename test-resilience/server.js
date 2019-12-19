@@ -60,7 +60,7 @@ function findMissing (messages) {
 		}
 
 		for (i in messages) {
-			console.log ("Message: ", messages[i]);
+//			console.log ("Message: ", messages[i]);
 			m[messages[i]] = false;
 		}
 
