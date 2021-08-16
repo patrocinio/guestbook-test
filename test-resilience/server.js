@@ -1,6 +1,6 @@
-
-const BASE_URL = "http://frontend.guestbook/guestbook.php?key=messages&cmd=";
-const NUM_MESSAGES = 100;
+//const BASE_URL = "http://backend-guestbook.patrocinio-684-ddd93d3a0fef01f6b396b69d343df410-0000.us-south.containers.appdomain.cloud/";
+const BASE_URL = "http://backend.guestbook/";
+const NUM_MESSAGES = 2000;
 
 var request = require('request-promise');
 var assert = require('assert');
@@ -56,7 +56,7 @@ async function countMessages (expected) {
 }
 
 async function addMessage(message) {
-	const result = await sendRequest ("append&value=" + message);
+	const result = await sendRequest ("append/" + message);
 	console.log ("Add message result: " + JSON.stringify(result));
 	return result;
 }
